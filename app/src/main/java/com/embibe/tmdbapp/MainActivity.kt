@@ -3,10 +3,12 @@ package com.embibe.tmdbapp
 import android.database.Observable
 import android.os.Bundle
 import android.widget.Adapter
+import android.widget.LinearLayout
 import androidx.annotation.Nullable
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.embibe.tmdbapp.service.models.Movie
 import com.embibe.tmdbapp.service.models.Response
 import com.embibe.tmdbapp.viewmodel.MovieListViewModel
@@ -28,12 +30,11 @@ class MainActivity : AppCompatActivity() {
         // Update the list when the data changes
         viewModel.movieListObservable.observe(this, Observer {
             var response:Response = it as Response
-            var movieList:List<Movie> = response.results
+            var movieList:ArrayList<Movie> = response.results as ArrayList<Movie>
 
-            id_rv.adapter
-
-
-
+            id_rv.adapter        =  RvAdapter(movieList,this)
+            id_rv.layoutManager  =  LinearLayoutManager(this)
+            (id_rv.adapter as RvAdapter).notifyDataSetChanged()
 
         })
     }
