@@ -14,6 +14,16 @@ import retrofit2.Response;
 public class ProjectRepository {
     private TmdbService tmdbService;
 
+    public static  ProjectRepository INSTANCE ;
+
+    private ProjectRepository() {
+        INSTANCE = (ProjectRepository) this;
+    }
+
+    static {
+        new ProjectRepository();
+    }
+
     public LiveData<List<Movie>> getNowPlayingList(String iApiKey, String iPage) {
 
         final MutableLiveData<List<Movie>> data = new MutableLiveData<>();
