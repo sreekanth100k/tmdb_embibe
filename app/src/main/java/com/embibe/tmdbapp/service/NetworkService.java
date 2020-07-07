@@ -10,7 +10,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class NetworkService {
     private static NetworkService mInstance;
-    private static final String BASE_URL = "https://www.json-generator.com/api/json/get/";
+    private static final String BASE_URL = "https://api.themoviedb.org/3/";
     private Retrofit mRetrofit;
 
     private NetworkService() {

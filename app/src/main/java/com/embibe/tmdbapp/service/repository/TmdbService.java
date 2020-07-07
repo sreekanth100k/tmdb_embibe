@@ -7,14 +7,14 @@ import java.util.List;
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Path;
+import retrofit2.http.Query;
 
 public interface TmdbService {
-    String HTTPS_API_TMDB_URL = "https://api.themoviedb.org/3/";
 
-    @GET("movie/now_playing?api_key={api_key}&page={page}")
-    Call<List<Movie>> getNowPlayingList(@Path("api_key") String apiKey, @Path("page") String page);
+    @GET("movie/now_playing")
+    Call<List<Movie>> getNowPlayingList(@Query("api_key") String apiKey, @Query("page") String page);
 
-    @GET("search/movie?api_key=xxx&query=xxx&page=xxx")
-    void searchMovie(@Path("api_key") String api_key, @Path("query") String query, @Path("page")Integer page);
+    @GET("search/movie")
+    void searchMovie(@Query("api_key") String api_key, @Query("query") String query, @Query("page") Integer page);
 
 }
