@@ -7,12 +7,13 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
 import com.embibe.tmdbapp.service.models.Movie;
+import com.embibe.tmdbapp.service.models.Response;
 import com.embibe.tmdbapp.service.repository.ProjectRepository;
 
 import java.util.List;
 
 public class MovieListViewModel extends AndroidViewModel {
-    private final LiveData<List<Movie>> movieListObservable;
+    private final LiveData<Response> movieListObservable;
     private String apiKey = "15876f79b1e52133351b6055744a28cd";
 
     public MovieListViewModel(Application application){
@@ -24,7 +25,7 @@ public class MovieListViewModel extends AndroidViewModel {
     /**
      * Expose the LiveData Projects query so the UI can observe it.
      */
-    public LiveData<List<Movie>> getMovieListObservable() {
+    public LiveData<Response> getMovieListObservable() {
         return movieListObservable;
     }
 }

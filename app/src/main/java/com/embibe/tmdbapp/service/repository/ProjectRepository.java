@@ -25,20 +25,20 @@ public class ProjectRepository {
         new ProjectRepository();
     }
 
-    public LiveData<List<Movie>> getNowPlayingList(String iApiKey, String iPage) {
+    public LiveData<com.embibe.tmdbapp.service.models.Response> getNowPlayingList(String iApiKey, String iPage) {
 
-        final MutableLiveData<List<Movie>> data = new MutableLiveData<>();
+        final MutableLiveData<com.embibe.tmdbapp.service.models.Response> data = new MutableLiveData<>();
 
         NetworkService networkServiceObj = NetworkService.getInstance();
 
-        networkServiceObj.getJSONApi().getNowPlayingList(iApiKey,iPage).enqueue(new Callback<List<Movie>>() {
+        networkServiceObj.getJSONApi().getNowPlayingList(iApiKey,iPage).enqueue(new Callback<com.embibe.tmdbapp.service.models.Response>() {
             @Override
-            public void onResponse(Call<List<Movie>> call, Response<List<Movie>> response) {
+            public void onResponse(Call<com.embibe.tmdbapp.service.models.Response> call, Response<com.embibe.tmdbapp.service.models.Response> response) {
                 data.setValue(response.body());
             }
 
             @Override
-            public void onFailure(Call<List<Movie>> call, Throwable t) {
+            public void onFailure(Call<com.embibe.tmdbapp.service.models.Response> call, Throwable t) {
                 Log.d("ProjectRepository",t.getLocalizedMessage());
 
             }
