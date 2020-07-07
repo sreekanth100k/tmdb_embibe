@@ -32,4 +32,13 @@ public class Movie {
         private String overview;
 
         private String release_date;
+
+        public String getTitle() {
+                return title;
+        }
+
+
+        public String getBackdrop_path() {
+                return backdrop_path;
+        }
 }
