@@ -14,9 +14,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val viewModel: MovieListViewModel = ViewModelProviders.of(this).get<MovieListViewModel>(
-            MovieListViewModel::class.java
-        )
+        val viewModel: MovieListViewModel = ViewModelProviders.of(this).get<MovieListViewModel>(MovieListViewModel::class.java)
 
         observeViewModel(viewModel)
 
@@ -29,6 +27,4 @@ class MainActivity : AppCompatActivity() {
 
         })
     }
-
-
 }
