@@ -23,7 +23,6 @@ class MainActivity : AppCompatActivity() {
 
         observeViewModel(viewModel)
 
-
     }
 
     private fun observeViewModel(viewModel: MovieListViewModel) {
