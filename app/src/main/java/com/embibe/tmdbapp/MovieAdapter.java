@@ -26,7 +26,6 @@ import com.embibe.tmdbapp.service.models.Movie;
 import java.util.ArrayList;
 
 public class MovieAdapter extends PagedListAdapter<Movie, MovieAdapter.MovieViewHolder> {
-    private ArrayList<Movie> moviesArrayList;
     private Context mContext;
 
     MovieAdapter(Context mCtx) {

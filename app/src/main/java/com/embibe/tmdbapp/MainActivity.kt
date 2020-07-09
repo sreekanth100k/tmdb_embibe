@@ -4,14 +4,16 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.doAfterTextChanged
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import androidx.paging.PagedList
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.embibe.tmdbapp.service.NetworkService
 import com.embibe.tmdbapp.service.models.Movie
 import com.embibe.tmdbapp.viewmodel.ItemViewModel
+import com.embibe.tmdbapp.viewmodel.ItemViewModelSearch
 import kotlinx.android.synthetic.main.activity_main.*
+
 
 class MainActivity : AppCompatActivity() {
 
@@ -50,8 +52,26 @@ class MainActivity : AppCompatActivity() {
         id_search_by_keyword_et.doAfterTextChanged {
             var searchKeyWord:String =  it.toString()
 
-            NetworkService.getInstance().jsonApi.searchMovie(apiKey,searchKeyWord,1)
+            val itemViewModelSearch: ItemViewModelSearch = ViewModelProvider(
+                this,
+                MyViewModelFactory(this.application, searchKeyWord)
+            ).get(
+                ItemViewModelSearch::class.java
+            )
 
+            //creating the Adapter
+            var movieAdapter:MovieAdapter = MovieAdapter (this);
+
+            itemViewModelSearch.itemPagedList.observe(this, Observer <PagedList<Movie>>  () {
+                //in case of any changes
+                //submitting the items to adapter
+                var pagedList:PagedList<Movie> = it
+
+                movieAdapter.submitList(pagedList);
+
+            } )
+
+            recyclerView.adapter = movieAdapter
         }
     }
 }

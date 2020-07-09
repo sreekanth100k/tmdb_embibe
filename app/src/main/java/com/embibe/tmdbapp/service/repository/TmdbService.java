@@ -16,6 +16,6 @@ public interface TmdbService {
     Call<Response> getNowPlayingList(@Query("api_key") String apiKey, @Query("page") String page);
 
     @GET("search/movie")
-    Call<Response> searchMovie(@Query("api_key") String api_key, @Query("query") String query, @Query("page") Integer page);
+    Call<Response> searchMovie(@Query("api_key") String api_key, @Query("query") String query, @Query("page") String page);
 
 }
