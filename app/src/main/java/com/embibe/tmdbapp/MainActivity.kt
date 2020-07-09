@@ -51,27 +51,53 @@ class MainActivity : AppCompatActivity() {
 
         id_search_by_keyword_et.doAfterTextChanged {
             var searchKeyWord:String =  it.toString()
+            if(searchKeyWord.equals("")) {
 
-            val itemViewModelSearch: ItemViewModelSearch = ViewModelProvider(
-                this,
-                MyViewModelFactory(this.application, searchKeyWord)
-            ).get(
-                ItemViewModelSearch::class.java
-            )
 
-            //creating the Adapter
-            var movieAdapter:MovieAdapter = MovieAdapter (this);
+                //getting our ItemViewModel
+                val itemViewModel: ItemViewModel = ViewModelProviders.of(this).get<ItemViewModel>(ItemViewModel::class.java)
 
-            itemViewModelSearch.itemPagedList.observe(this, Observer <PagedList<Movie>>  () {
-                //in case of any changes
-                //submitting the items to adapter
-                var pagedList:PagedList<Movie> = it
+                //creating the Adapter
+                var movieAdapter:MovieAdapter = MovieAdapter (this);
 
-                movieAdapter.submitList(pagedList);
+                itemViewModel.itemPagedList.observe(this, Observer <PagedList<Movie>>  () {
+                    //in case of any changes
+                    //submitting the items to adapter
+                    var pagedList:PagedList<Movie> = it
 
-            } )
+                    movieAdapter.submitList(pagedList);
 
-            recyclerView.adapter = movieAdapter
+
+                } )
+
+
+            }else{
+
+
+                this.getViewModelStore().clear();
+
+                val itemViewModelSearch: ItemViewModelSearch = ViewModelProvider(
+                    this,
+                    MyViewModelFactory(this.application, searchKeyWord)
+                ).get(
+                    ItemViewModelSearch::class.java
+                )
+
+
+                //creating the Adapter
+                var movieAdapter: MovieAdapter = MovieAdapter(this);
+
+                itemViewModelSearch.itemPagedList.observe(this, Observer<PagedList<Movie>>() {
+                    //in case of any changes
+                    //submitting the items to adapter
+                    var pagedList: PagedList<Movie> = it
+
+                    movieAdapter.submitList(pagedList);
+
+                })
+
+                recyclerView.adapter = movieAdapter
+            }
         }
     }
 }
