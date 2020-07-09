@@ -28,12 +28,8 @@ import java.util.List;
 
 public class RvAdapter extends RecyclerView.Adapter<RvAdapter.ViewHolder> {
 
-
     private ArrayList<Movie> moviesArrayList;
-    private static final int ITEM = 0;
-    private static final int LOADING = 1;
     private Context mContext;
-    private boolean isLoadingAdded = false;
 
     // RecyclerView recyclerView;
     public RvAdapter(ArrayList<Movie> moviesListData, Context iContext) {
@@ -44,7 +40,7 @@ public class RvAdapter extends RecyclerView.Adapter<RvAdapter.ViewHolder> {
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater   =   LayoutInflater.from(parent.getContext());
         View listItem                   =   layoutInflater.inflate(R.layout.list_row_item, parent, false);
-        ViewHolder viewHolder           =   new ViewHolder(listItem);
+        ViewHolder viewHolder = new ViewHolder(listItem);
         return viewHolder;
     }
 
@@ -52,17 +48,19 @@ public class RvAdapter extends RecyclerView.Adapter<RvAdapter.ViewHolder> {
     public void onBindViewHolder(ViewHolder holder, int position) {
         Movie movie = moviesArrayList.get(position);
         holder.textView.setText(movie.getTitle());
-        String url = "https://image.tmdb.org/t/p/original/"+movie.getBackdrop_path();
+        String url = "https://image.tmdb.org/t/p/original/" +movie.getBackdrop_path();
 
         Glide.with(mContext).load(url).timeout(60000).listener(new RequestListener<Drawable>() {
             @Override
             public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+
 
                 return false;
             }
 
             @Override
             public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+
 
                 holder.imageView.setImageDrawable(resource);
 
@@ -71,68 +69,14 @@ public class RvAdapter extends RecyclerView.Adapter<RvAdapter.ViewHolder> {
 
         }).into(holder.imageView);
 
+
+
     }
 
 
     @Override
     public int getItemCount() {
-        return moviesArrayList == null ? 0 : moviesArrayList.size();
-    }
-
-    @Override
-    public int getItemViewType(int position) {
-        return (position == moviesArrayList.size() - 1 && isLoadingAdded) ? LOADING : ITEM;
-
-    }
-
-    public void add(Movie mc) {
-        moviesArrayList.add(mc);
-        notifyItemInserted(moviesArrayList.size() - 1);
-    }
-
-    public void addAll(List <Movie> mcList) {
-        for (Movie mc: mcList) {
-            add(mc);
-        }
-    }
-
-    public void remove(Movie iMovie) {
-        int position = moviesArrayList.indexOf(iMovie);
-        if (position > -1) {
-            moviesArrayList.remove(position);
-            notifyItemRemoved(position);
-        }
-    }
-
-    public void clear() {
-        isLoadingAdded = false;
-        while (getItemCount() > 0) {
-            remove(getItem(0));
-        }
-    }
-
-    public boolean isEmpty() {
-        return getItemCount() == 0;
-    }
-
-    public void addLoadingFooter() {
-        isLoadingAdded = true;
-        add(new Movie());
-    }
-
-    public void removeLoadingFooter() {
-        isLoadingAdded = false;
-
-        int position = moviesArrayList.size() - 1;
-        Movie item = getItem(position);
-        if (item != null) {
-            moviesArrayList.remove(position);
-            notifyItemRemoved(position);
-        }
-    }
-
-    public Movie getItem(int position) {
-        return moviesArrayList.get(position);
+        return moviesArrayList.size();
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
