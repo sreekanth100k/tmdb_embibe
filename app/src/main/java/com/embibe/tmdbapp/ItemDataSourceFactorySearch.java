@@ -7,27 +7,31 @@ import androidx.paging.PageKeyedDataSource;
 
 import com.embibe.tmdbapp.service.models.Movie;
 
-public class ItemDataSourceFactorySearch extends DataSource.Factory {
+public class ItemDataSourceFactorySearch extends DataSource.Factory<Integer, Movie> {
 
-    //creating the mutable live data
-    private MutableLiveData<PageKeyedDataSource<Integer, Movie>> itemLiveDataSource = new MutableLiveData<>();
-
-
-    @Override
-    public DataSource<Integer, Movie> create() {
-        //getting our data source object
-        ItemDataSource itemDataSource = new ItemDataSource();
-
-        //posting the datasource to get the values
-        itemLiveDataSource.postValue(itemDataSource);
-
-        //returning the datasource
-        return itemDataSource;
+    public ItemDataSourceFactorySearch(String iSearchParam){
+        searchParam = iSearchParam;
     }
 
+    //creating the mutable live data
+    private MutableLiveData<PageKeyedDataSource<Integer, Movie>> itemLiveDataSourceSearch = new MutableLiveData<>();
+
+    private String searchParam;
+    @Override
+    public DataSource<Integer, Movie> create() {
+
+        //getting our data source object
+        ItemDataSourceSearch itemDataSourceSearch = new ItemDataSourceSearch(searchParam);
+
+        //posting the datasource to get the values
+        itemLiveDataSourceSearch.postValue(itemDataSourceSearch);
+
+        //returning the datasource
+        return itemDataSourceSearch;
+    }
 
     //getter for itemlivedatasource
     public MutableLiveData<PageKeyedDataSource<Integer, Movie>> getItemLiveDataSource() {
-        return itemLiveDataSource;
+        return itemLiveDataSourceSearch;
     }
 }

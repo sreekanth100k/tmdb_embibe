@@ -14,6 +14,10 @@ import retrofit2.Callback;
 
 public class ItemDataSourceSearch extends PageKeyedDataSource<Integer, Movie> {
 
+    public ItemDataSourceSearch(String iSearchString){
+        searchParam = iSearchString;
+    }
+
     //the size of a page that we want
     public static final int MAX_PAGE_SIZE = 21;
 
@@ -21,12 +25,12 @@ public class ItemDataSourceSearch extends PageKeyedDataSource<Integer, Movie> {
     private static final int FIRST_PAGE = 1;
 
     private static String apiKey  = "15876f79b1e52133351b6055744a28cd";
-
+    private String searchParam;
 
     //this will be called once to load the initial data
     @Override
     public void loadInitial(@NonNull LoadInitialParams<Integer> params, @NonNull final LoadInitialCallback<Integer, Movie> callback) {
-        NetworkService.getInstance().getJSONApi().searchMovie(apiKey,"",String.valueOf(FIRST_PAGE)).enqueue(new Callback<Response>() {
+        NetworkService.getInstance().getJSONApi().searchMovie(apiKey,searchParam,String.valueOf(FIRST_PAGE)).enqueue(new Callback<Response>() {
             @Override
             public void onResponse(Call<Response> call, retrofit2.Response<Response> response) {
                 if (response.body() != null) {
@@ -48,7 +52,7 @@ public class ItemDataSourceSearch extends PageKeyedDataSource<Integer, Movie> {
     @Override
     public void loadBefore(@NonNull final LoadParams<Integer> params, @NonNull final LoadCallback<Integer, Movie> callback) {
         NetworkService.getInstance()
-                .getJSONApi().searchMovie(apiKey,"",String.valueOf(MAX_PAGE_SIZE))
+                .getJSONApi().searchMovie(apiKey,searchParam,String.valueOf(MAX_PAGE_SIZE))
                 .enqueue(new Callback<Response>() {
                     @Override
                     public void onResponse(Call<Response> call, retrofit2.Response<Response> response) {
@@ -77,7 +81,7 @@ public class ItemDataSourceSearch extends PageKeyedDataSource<Integer, Movie> {
     @Override
     public void loadAfter(@NonNull final LoadParams<Integer> params, @NonNull final LoadCallback<Integer, Movie> callback) {
         NetworkService.getInstance()
-                .getJSONApi().searchMovie(apiKey,"",String.valueOf(params.key))
+                .getJSONApi().searchMovie(apiKey,searchParam,String.valueOf(params.key))
                 .enqueue(new Callback<Response>() {
                     @Override
                     public void onResponse(Call<Response> call, retrofit2.Response<Response> response) {

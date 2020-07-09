@@ -20,8 +20,7 @@ public class ItemViewModelSearch extends ViewModel {
     //constructor
     public ItemViewModelSearch(String iSearchString) {
         //getting our data source factory
-        ItemDataSourceFactorySearch itemDataSourceFactorySearch =   new ItemDataSourceFactorySearch();
-
+        ItemDataSourceFactorySearch itemDataSourceFactorySearch =   new ItemDataSourceFactorySearch(iSearchString);
         liveDataSource                                          =   itemDataSourceFactorySearch.getItemLiveDataSource();
 
         PagedList.Config pagedListConfig =
