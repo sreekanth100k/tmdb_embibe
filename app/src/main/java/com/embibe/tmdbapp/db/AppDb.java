@@ -14,7 +14,7 @@ public abstract class AppDb extends RoomDatabase  {
 
     public abstract BookMarkedMoviesDAO BookMarkedPhotosMappingDAO();
 
-    public static AppDb getInMemoryDatabase(Context context) {
+    public static AppDb getDbInstance(Context context) {
         if (INSTANCE == null) {
             INSTANCE = Room.databaseBuilder(context.getApplicationContext(), AppDb.class,"my_sample_app").allowMainThreadQueries().build();
         }

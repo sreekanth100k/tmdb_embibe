@@ -1,5 +1,6 @@
 package com.embibe.tmdbapp.db;
 
+import androidx.lifecycle.LiveData
 import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
@@ -15,7 +16,7 @@ interface BookMarkedMoviesDAO {
 
     // Method to fetch the answers stored locally
     @Query("SELECT * FROM BookMarkedMovie")
-    fun getListOfBookMarkedMovies(): List<BookMarkedMovie>
+    fun getListOfBookMarkedMovies(): LiveData<List<BookMarkedMovie>>
 
     @Query("DELETE FROM BookMarkedMovie WHERE id = :id")
     fun removeBookMarkedMovieWithId(id:String)

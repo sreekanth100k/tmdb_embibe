@@ -1,36 +1,32 @@
 package com.embibe.tmdbapp.viewmodel;
 
+import android.app.Application;
+
+import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.ViewModel;
-import androidx.paging.LivePagedListBuilder;
-import androidx.paging.PageKeyedDataSource;
-import androidx.paging.PagedList;
 
-import com.embibe.tmdbapp.ItemDataSource;
-import com.embibe.tmdbapp.ItemDataSourceFactory;
+import com.embibe.tmdbapp.db.AppDb;
 import com.embibe.tmdbapp.db.BookMarkedMovie;
-import com.embibe.tmdbapp.service.models.Movie;
+import com.embibe.tmdbapp.db.BookMarkedMoviesDAO;
 
-import java.util.ArrayList;
+import java.util.List;
 
-public class ItemViewModelBookMarked extends ViewModel {
+public class ItemViewModelBookMarked extends AndroidViewModel {
 
     //creating livedata for PagedList  and PagedKeyedDataSource
-    public LiveData<ArrayList<BookMarkedMovie>> itemArrayList;
-    LiveData<PageKeyedDataSource<Integer, BookMarkedMovie>> liveDataSource;
+    public LiveData<List<BookMarkedMovie>> mItemArrayList;
+    private BookMarkedMoviesDAO mBookMarkedMoviesDao;
 
-    //constructor
-    public ItemViewModelBookMarked() {
-        //getting our data source factory
-        ItemDataSourceFactory itemDataSourceFactory = new ItemDataSourceFactory();
+    public ItemViewModelBookMarked(Application application) {
+        super(application);
 
-        //getting the live data source from data source factory
-
-        //Getting PagedList config
-        PagedList.Config pagedListConfig =
-                (new PagedList.Config.Builder())
-                        .setEnablePlaceholders(false)
-                        .setPageSize(ItemDataSource.MAX_PAGE_SIZE).build();
-
+        mBookMarkedMoviesDao    =   AppDb.getDbInstance(application).BookMarkedPhotosMappingDAO();
+        mItemArrayList          =   mBookMarkedMoviesDao.getListOfBookMarkedMovies();
     }
+
+    // Use LiveData for getting all the data from the database
+    public LiveData<List<BookMarkedMovie>> getMovies() {
+        return mItemArrayList;
+    }
+
 }

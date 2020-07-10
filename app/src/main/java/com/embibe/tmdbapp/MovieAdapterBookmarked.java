@@ -58,22 +58,27 @@ public class MovieAdapterBookmarked extends RecyclerView.Adapter<MovieAdapterBoo
     public void onBindViewHolder(@NonNull MovieViewHolder holder, int position, @NonNull List<Object> payloads) {
         super.onBindViewHolder(holder, position, payloads);
 
-
         BookMarkedMovie bookMarkedMovieObj  =   mMoviesList.get(position);
-        String photoPath                    =   bookMarkedMovieObj.getPhoto_path();
-        String title                        =   bookMarkedMovieObj.getTitle();
 
-        String thumbNailUrl                 =   "https://image.tmdb.org/t/p/original/"+photoPath;
 
         if(bookMarkedMovieObj!=null) {
+
+            String photoPath                    =   bookMarkedMovieObj.getPhoto_path();
+            String title                        =   bookMarkedMovieObj.getTitle();
+
+            String thumbNailUrl                 =   "https://image.tmdb.org/t/p/original/"+photoPath;
+
             holder.titleTv.setText(title);
             Glide.with(mContext)
                     .load(thumbNailUrl)
-                    .into(holder.bookMarkIv);
+                    .into(holder.photoIv);
 
         }else {
             Toast.makeText(mContext, "Item is null", Toast.LENGTH_LONG).show();
         }
+        String photoPath                    =   bookMarkedMovieObj.getPhoto_path();
+
+        String thumbNailUrl                 =   "https://image.tmdb.org/t/p/original/"+photoPath;
 
         Glide.with(mContext).load(thumbNailUrl).timeout(60000).listener(new RequestListener<Drawable>() {
             @Override
@@ -104,13 +109,11 @@ public class MovieAdapterBookmarked extends RecyclerView.Adapter<MovieAdapterBoo
 
         TextView titleTv;
         ImageView photoIv;
-        ImageView bookMarkIv;
 
         public MovieViewHolder(View itemView) {
             super(itemView);
             titleTv         =   itemView.findViewById(R.id.id_title_tv);
             photoIv         =   itemView.findViewById(R.id.id_photo_iv);
-            bookMarkIv      =   itemView.findViewById(R.id.id_book_mark_iv);
         }
     }
 }

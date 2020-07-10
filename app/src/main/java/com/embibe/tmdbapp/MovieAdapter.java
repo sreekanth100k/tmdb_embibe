@@ -27,7 +27,6 @@ import com.embibe.tmdbapp.db.AppDb;
 import com.embibe.tmdbapp.db.BookMarkedMovie;
 import com.embibe.tmdbapp.service.models.Movie;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class MovieAdapter extends PagedListAdapter<Movie, MovieAdapter.MovieViewHolder> {
@@ -98,11 +97,16 @@ public class MovieAdapter extends PagedListAdapter<Movie, MovieAdapter.MovieView
 
                 Drawable ivBg = holder.bookMarkIv.getBackground();
 
-                List<BookMarkedMovie> bookMarkedMovies = AppDb.getInMemoryDatabase(mContext).BookMarkedPhotosMappingDAO().getListOfBookMarkedMovies();
+                LiveData<List<BookMarkedMovie>> bookMarkedMovies = AppDb.getDbInstance(mContext).BookMarkedPhotosMappingDAO().getListOfBookMarkedMovies();
                 boolean isBookMarked = false;
-                for (BookMarkedMovie bookMarkedMovieObj : bookMarkedMovies) {
-                    if(Integer.valueOf(bookMarkedMovieObj.getId()) == movieObj.getId()){
-                        isBookMarked = true;
+                if(bookMarkedMovies!=null) {
+                    List<BookMarkedMovie> bookMarkedMovieList = bookMarkedMovies.getValue();
+                    if(bookMarkedMovieList!=null) {
+                        for (BookMarkedMovie bookMarkedMovieObj : bookMarkedMovieList) {
+                            if (Integer.valueOf(bookMarkedMovieObj.getId()) == movieObj.getId()) {
+                                isBookMarked = true;
+                            }
+                        }
                     }
                 }
                 if(isBookMarked){
@@ -116,7 +120,7 @@ public class MovieAdapter extends PagedListAdapter<Movie, MovieAdapter.MovieView
 
                     Movie movieObj = getItem(position);
 
-                    AppDb.getInMemoryDatabase(mContext).BookMarkedPhotosMappingDAO().removeBookMarkedMovieWithId(String.valueOf(movieObj.getId()));
+                    AppDb.getDbInstance(mContext).BookMarkedPhotosMappingDAO().removeBookMarkedMovieWithId(String.valueOf(movieObj.getId()));
 
                 }else{
                     //un bookmarked, add bookmark
@@ -130,18 +134,23 @@ public class MovieAdapter extends PagedListAdapter<Movie, MovieAdapter.MovieView
                     Movie movieObj = getItem(position);
 
                     BookMarkedMovie bookMarkedMovieObj = new BookMarkedMovie(String.valueOf(movieObj.getId()),movieObj.getTitle(),movieObj.getPoster_path());
-                    AppDb.getInMemoryDatabase(mContext).BookMarkedPhotosMappingDAO().insertResponse(bookMarkedMovieObj);
+                    AppDb.getDbInstance(mContext).BookMarkedPhotosMappingDAO().insertResponse(bookMarkedMovieObj);
 
                 }
             }
         };
 
-       List<BookMarkedMovie> bookMarkedMovies = AppDb.getInMemoryDatabase(mContext).BookMarkedPhotosMappingDAO().getListOfBookMarkedMovies();
+       LiveData<List<BookMarkedMovie>> bookMarkedMovies = AppDb.getDbInstance(mContext).BookMarkedPhotosMappingDAO().getListOfBookMarkedMovies();
         boolean isBookMarked = false;
-        for (BookMarkedMovie bookMarkedMovieObj : bookMarkedMovies) {
-               if(Integer.valueOf(bookMarkedMovieObj.getId()) == movieObj.getId()){
-                   isBookMarked = true;
-               }
+        if(bookMarkedMovies!=null) {
+            List<BookMarkedMovie> bookMarkedMovieList = bookMarkedMovies.getValue();
+            if(bookMarkedMovieList!=null) {
+                for (BookMarkedMovie bookMarkedMovieObj : bookMarkedMovieList) {
+                    if (Integer.valueOf(bookMarkedMovieObj.getId()) == movieObj.getId()) {
+                        isBookMarked = true;
+                    }
+                }
+            }
         }
         if (isBookMarked) {
             Drawable bookMarkSelected = ContextCompat.getDrawable(mContext, R.drawable.ic_id_bookmark_selected);
