@@ -94,20 +94,45 @@ public class MovieAdapter extends PagedListAdapter<Movie, MovieAdapter.MovieView
         View.OnClickListener onClickListener = new View.OnClickListener() {
             public void onClick(View v) {
                 Drawable bookMarkSelected = ContextCompat.getDrawable(mContext, R.drawable.ic_id_bookmark_selected);
+                Drawable bookMarkUnSelected = ContextCompat.getDrawable(mContext, R.drawable.ic_id_bookmark_unselected);
 
-                final int sdk = android.os.Build.VERSION.SDK_INT;
-                if(sdk < android.os.Build.VERSION_CODES.JELLY_BEAN) {
-                    holder.bookMarkIv.setBackgroundDrawable( bookMarkSelected );
-                } else {
-                    holder.bookMarkIv.setBackground( bookMarkSelected);
+                Drawable ivBg = holder.bookMarkIv.getBackground();
+
+                List<BookMarkedMovie> bookMarkedMovies = AppDb.getInMemoryDatabase(mContext).BookMarkedPhotosMappingDAO().getListOfBookMarkedMovies();
+                boolean isBookMarked = false;
+                for (BookMarkedMovie bookMarkedMovieObj : bookMarkedMovies) {
+                    if(Integer.valueOf(bookMarkedMovieObj.getId()) == movieObj.getId()){
+                        isBookMarked = true;
+                    }
                 }
+                if(isBookMarked){
+                    //already bookmarked, remove bookmark
+                    final int sdk = android.os.Build.VERSION.SDK_INT;
+                    if(sdk < android.os.Build.VERSION_CODES.JELLY_BEAN) {
+                        holder.bookMarkIv.setBackgroundDrawable( bookMarkUnSelected );
+                    } else {
+                        holder.bookMarkIv.setBackground( bookMarkUnSelected);
+                    }
 
-                Movie movieObj = getItem(position);
+                    Movie movieObj = getItem(position);
 
+                    AppDb.getInMemoryDatabase(mContext).BookMarkedPhotosMappingDAO().removeBookMarkedMovieWithId(String.valueOf(movieObj.getId()));
 
-                BookMarkedMovie bookMarkedMovieObj = new BookMarkedMovie(String.valueOf(movieObj.getId()),movieObj.getTitle(),movieObj.getPoster_path());
-                AppDb.getInMemoryDatabase(mContext).BookMarkedPhotosMappingDAO().insertResponse(bookMarkedMovieObj);
+                }else{
+                    //un bookmarked, add bookmark
+                    final int sdk = android.os.Build.VERSION.SDK_INT;
+                    if(sdk < android.os.Build.VERSION_CODES.JELLY_BEAN) {
+                        holder.bookMarkIv.setBackgroundDrawable( bookMarkSelected );
+                    } else {
+                        holder.bookMarkIv.setBackground( bookMarkSelected);
+                    }
 
+                    Movie movieObj = getItem(position);
+
+                    BookMarkedMovie bookMarkedMovieObj = new BookMarkedMovie(String.valueOf(movieObj.getId()),movieObj.getTitle(),movieObj.getPoster_path());
+                    AppDb.getInMemoryDatabase(mContext).BookMarkedPhotosMappingDAO().insertResponse(bookMarkedMovieObj);
+
+                }
             }
         };
 

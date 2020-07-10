@@ -8,6 +8,13 @@
     android:padding="20dip"
     tools:context=".MainActivity">
 
+   <TextView
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content"
+       android:textSize="30sp"
+       android:textStyle="bold"
+       android:gravity="center_horizontal"
+       android:text="BookMarked Movies"/>
 
    <androidx.recyclerview.widget.RecyclerView
        android:id="@+id/id_rv"

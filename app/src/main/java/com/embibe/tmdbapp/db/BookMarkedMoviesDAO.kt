@@ -17,5 +17,8 @@ interface BookMarkedMoviesDAO {
     @Query("SELECT * FROM BookMarkedMovie")
     fun getListOfBookMarkedMovies(): List<BookMarkedMovie>
 
+    @Query("DELETE FROM BookMarkedMovie WHERE id = :id")
+    fun removeBookMarkedMovieWithId(id:String)
+
 
 }
