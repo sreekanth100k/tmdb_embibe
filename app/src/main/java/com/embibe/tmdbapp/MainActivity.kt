@@ -1,5 +1,6 @@
 package com.embibe.tmdbapp
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
@@ -108,6 +109,10 @@ class MainActivity : AppCompatActivity() {
         }
 
         id_view_bookmarked_btn.setOnClickListener(View.OnClickListener {
+
+            val intent = Intent(this, BookMarkedMoviesActivity::class.java)
+            // start your next activity
+            startActivity(intent)
 
         })
     }
