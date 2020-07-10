@@ -19,7 +19,7 @@
         android:layout_width="fill_parent"
         android:padding="10dip"
         android:layout_height="500dip"
-        android:id="@+id/id_iv"/>
+        android:id="@+id/id_photo_iv"/>
 
     <TextView
         android:layout_width="fill_parent"
