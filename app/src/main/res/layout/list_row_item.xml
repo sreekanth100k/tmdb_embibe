@@ -8,6 +8,14 @@
     android:layout_height="wrap_content">
 
     <ImageView
+        android:layout_width="30dip"
+        android:layout_height="30dip"
+        android:layout_margin="10dip"
+        android:id="@+id/id_book_mark_iv"
+        android:background="@drawable/ic_id_bookmark_unselected"/>
+
+
+    <ImageView
         android:layout_width="fill_parent"
         android:padding="10dip"
         android:layout_height="500dip"

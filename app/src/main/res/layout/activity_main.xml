@@ -26,7 +26,10 @@
 
    <Button
        android:layout_width="fill_parent"
-       android:layout_height="20dip"
+       android:layout_height="50dip"
+       android:layout_marginTop="10dip"
+       android:textColor="@android:color/white"
+       android:background="@android:color/holo_red_light"
        android:id="@+id/id_view_bookmarked_btn"
        android:text="View BookMarked"/>
 

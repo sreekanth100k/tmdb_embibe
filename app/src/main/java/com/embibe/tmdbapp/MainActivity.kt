@@ -1,6 +1,7 @@
 package com.embibe.tmdbapp
 
 import android.os.Bundle
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.doAfterTextChanged
 import androidx.lifecycle.Observer
@@ -51,6 +52,9 @@ class MainActivity : AppCompatActivity() {
 
         id_search_by_keyword_et.doAfterTextChanged {
             var searchKeyWord:String =  it.toString()
+
+            this.getViewModelStore().clear();
+
             if(searchKeyWord.equals("")) {
 
 
@@ -70,11 +74,12 @@ class MainActivity : AppCompatActivity() {
 
                 } )
 
+                recyclerView.adapter = movieAdapter
+
+
 
             }else{
 
-
-                this.getViewModelStore().clear();
 
                 val itemViewModelSearch: ItemViewModelSearch = ViewModelProvider(
                     this,
@@ -97,7 +102,13 @@ class MainActivity : AppCompatActivity() {
                 })
 
                 recyclerView.adapter = movieAdapter
+
+
             }
         }
+
+        id_view_bookmarked_btn.setOnClickListener(View.OnClickListener {
+
+        })
     }
 }
