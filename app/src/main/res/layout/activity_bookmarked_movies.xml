@@ -14,16 +14,6 @@
        app:layout_constraintTop_toTopOf="@id/id_search_by_keyword_et"
        app:layout_constraintStart_toStartOf="parent"
        android:layout_width="match_parent"
-       android:layout_weight="1"
-       android:layout_height="0dip"/>
-
-   <Button
-       android:layout_width="fill_parent"
-       android:layout_height="50dip"
-       android:layout_marginTop="10dip"
-       android:textColor="@android:color/white"
-       android:background="@android:color/holo_red_light"
-       android:id="@+id/id_view_bookmarked_btn"
-       android:text="View BookMarked"/>
+       android:layout_height="match_parent"/>
 
 </LinearLayout>
