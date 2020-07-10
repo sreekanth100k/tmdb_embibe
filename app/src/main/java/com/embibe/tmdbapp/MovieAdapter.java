@@ -112,34 +112,32 @@ public class MovieAdapter extends PagedListAdapter<Movie, MovieAdapter.MovieView
         };
 
        List<BookMarkedMovie> bookMarkedMovies = AppDb.getInMemoryDatabase(mContext).BookMarkedPhotosMappingDAO().getListOfBookMarkedMovies();
-           for (BookMarkedMovie bookMarkedMovieObj : bookMarkedMovies) {
-               boolean isBookMarked = false;
+        boolean isBookMarked = false;
+        for (BookMarkedMovie bookMarkedMovieObj : bookMarkedMovies) {
                if(Integer.valueOf(bookMarkedMovieObj.getId()) == movieObj.getId()){
                    isBookMarked = true;
                }
-               if (isBookMarked) {
-                   Drawable bookMarkSelected = ContextCompat.getDrawable(mContext, R.drawable.ic_id_bookmark_selected);
+        }
+        if (isBookMarked) {
+            Drawable bookMarkSelected = ContextCompat.getDrawable(mContext, R.drawable.ic_id_bookmark_selected);
 
-                   final int sdk = android.os.Build.VERSION.SDK_INT;
-                   if (sdk < android.os.Build.VERSION_CODES.JELLY_BEAN) {
-                       holder.bookMarkIv.setBackgroundDrawable(bookMarkSelected);
-                   } else {
-                       holder.bookMarkIv.setBackground(bookMarkSelected);
-                   }
+            final int sdk = android.os.Build.VERSION.SDK_INT;
+            if (sdk < android.os.Build.VERSION_CODES.JELLY_BEAN) {
+                holder.bookMarkIv.setBackgroundDrawable(bookMarkSelected);
+            } else {
+                holder.bookMarkIv.setBackground(bookMarkSelected);
+            }
 
-               }else{
-                   Drawable bookMarkUnSelected = ContextCompat.getDrawable(mContext, R.drawable.ic_id_bookmark_unselected);
+        }else{
+            Drawable bookMarkUnSelected = ContextCompat.getDrawable(mContext, R.drawable.ic_id_bookmark_unselected);
 
-                   final int sdk = android.os.Build.VERSION.SDK_INT;
-                   if(sdk < android.os.Build.VERSION_CODES.JELLY_BEAN) {
-                       holder.bookMarkIv.setBackgroundDrawable( bookMarkUnSelected );
-                   } else {
-                       holder.bookMarkIv.setBackground( bookMarkUnSelected);
-                   }
-               }
-           }
-
-
+            final int sdk = android.os.Build.VERSION.SDK_INT;
+            if(sdk < android.os.Build.VERSION_CODES.JELLY_BEAN) {
+                holder.bookMarkIv.setBackgroundDrawable( bookMarkUnSelected );
+            } else {
+                holder.bookMarkIv.setBackground( bookMarkUnSelected);
+            }
+        }
 
 
         holder.bookMarkIv.setOnClickListener(onClickListener);
