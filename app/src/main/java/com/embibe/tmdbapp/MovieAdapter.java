@@ -24,6 +24,8 @@ import com.bumptech.glide.load.DataSource;
 import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
+import com.embibe.tmdbapp.db.AppDb;
+import com.embibe.tmdbapp.db.BookMarkedPhotos;
 import com.embibe.tmdbapp.service.models.Movie;
 
 public class MovieAdapter extends PagedListAdapter<Movie, MovieAdapter.MovieViewHolder> {
@@ -98,6 +100,11 @@ public class MovieAdapter extends PagedListAdapter<Movie, MovieAdapter.MovieView
                     holder.bookMarkIv.setBackground( bookMarkSelected);
                 }
 
+                Movie movieObj = getItem(position);
+
+
+                BookMarkedPhotos movie = new BookMarkedPhotos(String.valueOf(movieObj.getId()),movieObj.getTitle(),movieObj.getPoster_path());
+                AppDb.getInMemoryDatabase(mContext).BookMarkedPhotosMappingDAO().insertResponse(movie);
 
 
             }
