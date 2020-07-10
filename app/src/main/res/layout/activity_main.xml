@@ -24,4 +24,10 @@
        android:layout_weight="1"
        android:layout_height="0dip"/>
 
+   <Button
+       android:layout_width="fill_parent"
+       android:layout_height="20dip"
+       android:id="@+id/id_view_bookmarked_btn"
+       android:text="View BookMarked"/>
+
 </LinearLayout>
