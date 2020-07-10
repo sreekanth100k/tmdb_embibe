@@ -25,6 +25,7 @@ import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
 import com.embibe.tmdbapp.db.AppDb;
 import com.embibe.tmdbapp.db.BookMarkedMovie;
+import com.embibe.tmdbapp.db.BookMarkedMoviesDAO;
 import com.embibe.tmdbapp.service.models.Movie;
 
 import java.util.List;
@@ -95,20 +96,19 @@ public class MovieAdapter extends PagedListAdapter<Movie, MovieAdapter.MovieView
                 Drawable bookMarkSelected = ContextCompat.getDrawable(mContext, R.drawable.ic_id_bookmark_selected);
                 Drawable bookMarkUnSelected = ContextCompat.getDrawable(mContext, R.drawable.ic_id_bookmark_unselected);
 
-                Drawable ivBg = holder.bookMarkIv.getBackground();
-
-                LiveData<List<BookMarkedMovie>> bookMarkedMovies = AppDb.getDbInstance(mContext).BookMarkedPhotosMappingDAO().getListOfBookMarkedMovies();
+                List<BookMarkedMovie> bookMarkedMovies = AppDb.getDbInstance(mContext).BookMarkedPhotosMappingDAO().getListOfBookMarkedMovies();
                 boolean isBookMarked = false;
                 if(bookMarkedMovies!=null) {
-                    List<BookMarkedMovie> bookMarkedMovieList = bookMarkedMovies.getValue();
-                    if(bookMarkedMovieList!=null) {
-                        for (BookMarkedMovie bookMarkedMovieObj : bookMarkedMovieList) {
+                    if(bookMarkedMovies!=null) {
+                        for (BookMarkedMovie bookMarkedMovieObj : bookMarkedMovies) {
                             if (Integer.valueOf(bookMarkedMovieObj.getId()) == movieObj.getId()) {
                                 isBookMarked = true;
                             }
                         }
                     }
                 }
+
+
                 if(isBookMarked){
                     //already bookmarked, remove bookmark
                     final int sdk = android.os.Build.VERSION.SDK_INT;
@@ -140,12 +140,12 @@ public class MovieAdapter extends PagedListAdapter<Movie, MovieAdapter.MovieView
             }
         };
 
-       LiveData<List<BookMarkedMovie>> bookMarkedMovies = AppDb.getDbInstance(mContext).BookMarkedPhotosMappingDAO().getListOfBookMarkedMovies();
+       BookMarkedMoviesDAO bookMarkedMoviesDAO = AppDb.getDbInstance(mContext).BookMarkedPhotosMappingDAO();
+       List<BookMarkedMovie> listOfBookMarkedMovies  = bookMarkedMoviesDAO.getListOfBookMarkedMovies();
         boolean isBookMarked = false;
-        if(bookMarkedMovies!=null) {
-            List<BookMarkedMovie> bookMarkedMovieList = bookMarkedMovies.getValue();
-            if(bookMarkedMovieList!=null) {
-                for (BookMarkedMovie bookMarkedMovieObj : bookMarkedMovieList) {
+        if(listOfBookMarkedMovies!=null) {
+            if(listOfBookMarkedMovies!=null) {
+                for (BookMarkedMovie bookMarkedMovieObj : listOfBookMarkedMovies) {
                     if (Integer.valueOf(bookMarkedMovieObj.getId()) == movieObj.getId()) {
                         isBookMarked = true;
                     }
