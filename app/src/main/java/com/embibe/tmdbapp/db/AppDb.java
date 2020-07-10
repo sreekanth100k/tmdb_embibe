@@ -7,7 +7,7 @@ import androidx.room.Room;
 import androidx.room.RoomDatabase;
 
 //@TypeConverters(Converters.class)
-@Database(entities = {BookMarkedPhotos.class}, version = 1,exportSchema = false)
+@Database(entities = {BookMarkedMovie.class}, version = 1,exportSchema = true)
 public abstract class AppDb extends RoomDatabase  {
 
     private static AppDb INSTANCE;
@@ -16,7 +16,7 @@ public abstract class AppDb extends RoomDatabase  {
 
     public static AppDb getInMemoryDatabase(Context context) {
         if (INSTANCE == null) {
-            INSTANCE = Room.inMemoryDatabaseBuilder(context.getApplicationContext(), AppDb.class).allowMainThreadQueries().build();
+            INSTANCE = Room.databaseBuilder(context.getApplicationContext(), AppDb.class,"my_sample_app").allowMainThreadQueries().build();
         }
         return INSTANCE;
     }

@@ -11,11 +11,11 @@ import com.embibe.tmdbapp.service.models.Movie;
 interface BookMarkedMoviesDAO {
     // Method to insert the answers fetched from api to room
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertResponse(bookMarkedPhotoObj:BookMarkedPhotos)
+    fun insertResponse(bookMarkedPhotoObj:BookMarkedMovie)
 
     // Method to fetch the answers stored locally
-    @Query("SELECT * FROM `BookMarkedPhotos`")
-    fun getListOfBookMarkedMovies(): List<Movie>
+    @Query("SELECT * FROM BookMarkedMovie")
+    fun getListOfBookMarkedMovies(): List<BookMarkedMovie>
 
 
 }

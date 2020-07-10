@@ -2,7 +2,6 @@ package com.embibe.tmdbapp;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
-import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,8 +11,8 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.annotation.RequiresApi;
 import androidx.core.content.ContextCompat;
+import androidx.lifecycle.LiveData;
 import androidx.paging.PagedListAdapter;
 import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.RecyclerView;
@@ -25,8 +24,11 @@ import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
 import com.embibe.tmdbapp.db.AppDb;
-import com.embibe.tmdbapp.db.BookMarkedPhotos;
+import com.embibe.tmdbapp.db.BookMarkedMovie;
 import com.embibe.tmdbapp.service.models.Movie;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MovieAdapter extends PagedListAdapter<Movie, MovieAdapter.MovieViewHolder> {
     private Context mContext;
@@ -103,21 +105,41 @@ public class MovieAdapter extends PagedListAdapter<Movie, MovieAdapter.MovieView
                 Movie movieObj = getItem(position);
 
 
-                BookMarkedPhotos movie = new BookMarkedPhotos(String.valueOf(movieObj.getId()),movieObj.getTitle(),movieObj.getPoster_path());
-                AppDb.getInMemoryDatabase(mContext).BookMarkedPhotosMappingDAO().insertResponse(movie);
-
+                BookMarkedMovie bookMarkedMovieObj = new BookMarkedMovie(String.valueOf(movieObj.getId()),movieObj.getTitle(),movieObj.getPoster_path());
+                AppDb.getInMemoryDatabase(mContext).BookMarkedPhotosMappingDAO().insertResponse(bookMarkedMovieObj);
 
             }
         };
 
-        Drawable bookMarkUnSelected = ContextCompat.getDrawable(mContext, R.drawable.ic_id_bookmark_unselected);
+       List<BookMarkedMovie> bookMarkedMovies = AppDb.getInMemoryDatabase(mContext).BookMarkedPhotosMappingDAO().getListOfBookMarkedMovies();
+           for (BookMarkedMovie bookMarkedMovieObj : bookMarkedMovies) {
+               boolean isBookMarked = false;
+               if(Integer.valueOf(bookMarkedMovieObj.getId()) == movieObj.getId()){
+                   isBookMarked = true;
+               }
+               if (isBookMarked) {
+                   Drawable bookMarkSelected = ContextCompat.getDrawable(mContext, R.drawable.ic_id_bookmark_selected);
 
-        final int sdk = android.os.Build.VERSION.SDK_INT;
-        if(sdk < android.os.Build.VERSION_CODES.JELLY_BEAN) {
-            holder.bookMarkIv.setBackgroundDrawable( bookMarkUnSelected );
-        } else {
-            holder.bookMarkIv.setBackground( bookMarkUnSelected);
-        }
+                   final int sdk = android.os.Build.VERSION.SDK_INT;
+                   if (sdk < android.os.Build.VERSION_CODES.JELLY_BEAN) {
+                       holder.bookMarkIv.setBackgroundDrawable(bookMarkSelected);
+                   } else {
+                       holder.bookMarkIv.setBackground(bookMarkSelected);
+                   }
+
+               }else{
+                   Drawable bookMarkUnSelected = ContextCompat.getDrawable(mContext, R.drawable.ic_id_bookmark_unselected);
+
+                   final int sdk = android.os.Build.VERSION.SDK_INT;
+                   if(sdk < android.os.Build.VERSION_CODES.JELLY_BEAN) {
+                       holder.bookMarkIv.setBackgroundDrawable( bookMarkUnSelected );
+                   } else {
+                       holder.bookMarkIv.setBackground( bookMarkUnSelected);
+                   }
+               }
+           }
+
+
 
 
         holder.bookMarkIv.setOnClickListener(onClickListener);
